@@ -80,6 +80,15 @@ p {
   letter-spacing: 2px;
 }
 
+.test {
+  font-family: "Black Han Sans", sans-serif;
+  color: white;
+  font-size: 20px;
+  letter-spacing: 2px;
+  display: flex;
+  gap: 0.8rem
+}
+
 .response {
   font-family: "Black Han Sans", sans-serif;
   color: white;
