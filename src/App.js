@@ -1,7 +1,8 @@
 import { useState } from "react";
 import "./App.css";
+import game from "./assets/game.png"
 
-const randomNumber = Math.round(Math.random() * 10);
+const randomNumber = Math.round(Math.random() * 100);
 
 function App() {
   const [value, setValue] = useState("");
@@ -20,51 +21,39 @@ function App() {
     setUserCount(0);
     setNumberGuess([]);
     setRandomNumbers(randomNumber);
+    setResult("");
+    setValue("");
   };
 
   const handleClick = () => {
     setUserCount(userCount + 1);
-    // comprends pas
     setNumberGuess([...numberGuess, value]);
     const crashTest = parseInt(value, setValue);
     setResult("Pick a number");
-    if (crashTest === randomNumber) setResult("You Win!") && setDisabled(!disabled);
-    if (crashTest > randomNumber)
-      setResult("Too high, guess again") && setDisabled(disabled);
-    if (crashTest < randomNumber)
-      setResult("Too Low, guess again") && setDisabled(disabled);
-    if (userCount === 9) setResult("GAME OVER !!!") && setDisabled(!disabled);
+    if (crashTest === randomNumber) {
+      setResult("You Win!");
+      setDisabled(true);
+    }
+    if (crashTest > randomNumber) {
+      setResult("Too high, guess again");
+      setDisabled(disabled);
+    }
+    if (crashTest < randomNumber) {
+      setResult("Too Low, guess again");
+      setDisabled(disabled);
+    }
+    if (userCount === 9) {
+      setResult("GAME OVER !!!");
+      setDisabled(!disabled);
+    }
   };
 
-  // const handleClick = () => {
-  //   setUserCount(userCount + 1);
-  //   setNumberGuess([...numberGuess, value]);
-  //   const crashTest = parseInt(value, setValue);
-  //   setResult("Pick a number");
-  //   if(crashTest === randomNumber) {
-  //     setResult("You Win!");
-  //     setDisabled(!disabled)
-  //   }
-  //   else if(crashTest > randomNumber) {
-  //     setResult("Too high, guess again");
-  //     setDisabled(disabled)
-  //   }
-  //   else if(crashTest < randomNumber) {
-  //     setResult("Too Low, guess again");
-  //     setDisabled(disabled)
-  //   }
-  //   else(userCount === 9) {
-  //     setResult("GAME OVER !!!");
-  //     setDisabled(!disabled)
-  //   }
-  // };
-
-
   return (
-    <div className="App">
+    <div className="app">
       <div className="header">
+        <img src={game}></img>
         <h1>Guess Number !</h1>
-        <h2 className="lead">Guess a number between 1 and 10.</h2>
+        <h2 className="lead">Guess a number between 1 and 100.</h2>
       </div>
       <div className="container-input">
         <p>Enter a number : </p>
@@ -85,21 +74,20 @@ function App() {
         >
           Check
         </button>
-        {disabled ? (<button onClick={restartAgain}>Try again</button>) : null}
-        {/* {disabled && (<button onClick={restartAgain} >Try again</button>)} */}
+        {disabled ? <button onClick={restartAgain}>Try again</button> : null}
+        {/* {disabled && <button onClick={restartAgain} >Try again</button>} */}
         <div className="response">Total round play : {userCount}</div>
         <div className="test">
           Your guesses :
           {numberGuess.map((item, index) => {
             return (
-              // stop après 10
               <p key={index}>
-                {item} {"-"}
+                {item} {userCount < 10 ? "-" : null}
               </p>
             );
           })}
         </div>
-        <div className="response">{result}</div>
+        <div className="result">{result}</div>
       </div>
     </div>
   );
